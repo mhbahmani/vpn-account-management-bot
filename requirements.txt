@@ -1,0 +1,2 @@
+botogram2
+python-decouple

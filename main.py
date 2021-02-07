@@ -20,6 +20,18 @@ def add_user(chat, message, args):
     chat.send("Welcome to booooooooooo bot!")
 
 
+@bot.message_contains("sendthistoall")
+def broadcast_command(chat, message):
+    """ 
+        This one is mine :)))
+        Don't even think about using it!
+    """
+
+    chats = get_users()
+    for user in chats:
+        bot.chat(user.get("chat_id")).send("yes")
+
+
 def get_users() -> list:
     return list(users.find(projection={"chat_id": 1, "_id": 0}))
 

@@ -2,6 +2,7 @@ from decouple import config
 import botogram
 import pymongo
 from pymongo import MongoClient
+import re
 
 
 bot = botogram.create(config("API_KEY"))
@@ -20,16 +21,18 @@ def add_user(chat, message, args):
     chat.send("Welcome to booooooooooo bot!")
 
 
-@bot.message_contains("sendthistoall")
-def broadcast_command(chat, message):
+broadcast_command = config("broadcast_command")
+@bot.message_contains(broadcast_command)
+def broadcast(chat, message):
     """ 
         This one is mine :)))
         Don't even think about using it!
     """
+    msg = re.sub('{} '.format(broadcast_command), '', message.text)
 
     chats = get_users()
     for user in chats:
-        bot.chat(user.get("chat_id")).send("yes")
+        bot.chat(user.get("chat_id")).send(msg)
 
 
 def get_users() -> list:

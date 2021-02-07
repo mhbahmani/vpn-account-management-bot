@@ -20,5 +20,9 @@ def add_user(chat, message, args):
     chat.send("Welcome to booooooooooo bot!")
 
 
+def get_users() -> list:
+    return list(users.find(projection={"chat_id": 1, "_id": 0}))
+
+
 if __name__ == "__main__":
     bot.run()

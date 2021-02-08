@@ -21,14 +21,32 @@ def add_user(chat, message, args):
     chat.send("Welcome to booooooooooo bot!")
 
 
-broadcast_command = config("broadcast_command")
-@bot.message_contains(broadcast_command)
-def broadcast(chat, message):
+broadcast_command_w_msg = config("broadcast_command_w_msg")
+@bot.message_contains(broadcast_command_w_msg)
+def broadcast_message(chat, message):
     """ 
         This one is mine :)))
         Don't even think about using it!
     """
-    msg = re.sub('{} '.format(broadcast_command), '', message.text)
+
+    msg = re.sub('{} '.format(broadcast_command_w_msg), '', message.text)
+
+    chats = get_users()
+    for user in chats:
+        bot.chat(user.get("chat_id")).send(msg)
+
+
+broadcast_command_wo_msg = config("broadcast_command_wo_msg")
+@bot.message_contains(broadcast_command_wo_msg)
+def broadcast_hardcode_message(chat, message):
+    """ 
+        This one is mine :)))
+        Don't even think about using it!
+    """
+
+    msg = """
+        put your message here
+    """
 
     chats = get_users()
     for user in chats:

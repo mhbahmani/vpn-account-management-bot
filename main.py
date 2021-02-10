@@ -15,7 +15,10 @@ users = db.users
 
 @bot.command("start")
 def add_user(chat, message, args):
-    new_user = {"chat_id": chat.id}
+    new_user = {"chat_id": chat.id,
+                "username": chat.username,
+                "first_name": chat.first_name,
+                "last_name": chat.last_name}
     users.insert_one(new_user)
     msg = """
 Welcome to booooooooooooooooooo bot

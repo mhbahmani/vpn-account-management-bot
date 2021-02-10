@@ -15,6 +15,7 @@ users = db.users
 
 @bot.command("start")
 def add_user(chat, message, args):
+    """Just a simple start""""
     new_user = {"chat_id": chat.id,
                 "username": chat.username,
                 "first_name": chat.first_name,
@@ -75,12 +76,13 @@ def spam_command(chat, message, args):
     """Get setup guide"""
     btns = botogram.Buttons()
     btns[0].callback("ShadowsocskR", "ssr")
+    btns[1].callback("OpenConnect", "openconnect")
 
     chat.send("Choose a protocol to see how to setup", attach=btns)
 
 
 @bot.callback("ssr")
-def delete_callback(query, chat, message):
+def ssr_callback(query, chat, message):
     ssr_msg = """
 عمو بهمن شب جمعه‌ای با یه پروتکل جدید اومده. این دیگه تهشه. هر کی با این نتونه وصل شه، باید جمع کنه از ایران بره :))) ولی جدا از شوخی این کامل امتحانش رو پس داده، رو همه‌ی ispها هم کار می‌کنه.
 برا اندروید اینو نصب کنید.
@@ -94,27 +96,58 @@ def delete_callback(query, chat, message):
  :لینوکس   تو ReadMe کامل توضیح داده،‌یه فایل کانفیگ می‌سازه، باید برید اونو عوض کنید.
  (https://github.com/ZoeyWoohoo/shadowsocksr):‌
  
-{
-    "server":"46.4.161.120",
-    "server_port":17870,
+[
+    "server": "{}",
+    "server_port": {},
     "local_address": "127.0.0.1",
     "local_port":1090,
-    "password":"sagToFiltering",
+    "password": "{}",
     "timeout":300,
-    "method":"chacha20-ietf",
-    "protocol": "auth_chain_a",
-    "obfs": "tls1.2_ticket_auth",
+    "method": "{}",
+    "protocol": "{}",
+    "obfs": "{}",
     "fast_open": true,
     "workers": 2
-}
+]
 
 تو کلاینتتون، ببینید هر کدوم از این فیلدارو دارید پر کنید، بقیرم ایگنور کنید.
 
 پ.ن.: این خداست، برید تستش کنید حتما.
 پ.ن.۲: من لینوکس و اندرویدش رو تست کردم، اگه مشکل خوردید بگید روال کنیم
-    """
+    """.format(config('SERVER_IP'), config('SSR_PORT'), 
+                config('SSR_PASSWORD'), config('SSR_METHOD'),
+                config('SSR_PROTOCOL'), config('SSR_OBFS'))
     chat.send(ssr_msg)
 
+@bot.callback("openconnect")
+def openconnect_callback(query, chat, message):
+    oc_msg = """
+خوشگلای تو خونه، یه پروتکل جدید داریم. البته این یکی وی‌پی‌ان‌عه و مثه قبلیا پروکسی نیست.
+خوشگلای قری لینوکسی، بای‌دیفالت اوپن‌کانکت ساپورت می‌کنه لینوکس و نیاز نیست چیزی نصب کنید، اگه نداره احیانا، این‌جا کامند نصبش هست.
+https://people.eng.unimelb.edu.au/lucasjb/archive/oc_old.html
+ بعد این که نصب کردید، میرید تو Settings > Network. اونجا یه VPN جدید می‌سازید و اطلاعات رو وارد می‌کنید. تو همون لینکه یه چیزایی گفته، البته خیلی قدیمیه و یه ذره فرق کرده الان لینوکس. ولی کلیت همونه.
+
+عزیزای ویندوزی، ضمن این که سگ تو ویندوز، لینک اولی آموزش کامل هست، برید ببینید. کلاینتی هم که باید دانلود کنید رو از لینک دوم می‌تونید بگیرید.
+https://openconnect.github.io/openconnect-gui/
+https://github.com/openconnect/openconnect-gui/releases
+
+
+اندرویدیای عزیز هم لینک اولو بمالن، اپ رو نصب کنن. آموزش هم تو لینک دوم هست.
+https://play.google.com/store/apps/details?id=com.github.digitalsoftwaresolutions.openconnect&hl=en&gl=US
+https://support.onevpn.com/android-openconnect
+
+اینم واسه ios:
+https://apps.apple.com/de/app/openvpn-connect/id590379981
+
+اطلاعات وی‌پی‌ان هم اینه:
+gateway/server ip : {}
+username: {}
+password: {}
+هر چی غیر اینا بود خالی بذارید‌ :))
+
+پ.ن.: توصیه می‌کنم از shadowsocksr استفاده کنید. نکته‌ی مثبت این اینه که وی‌پی‌انه و برای ویس کال و ویس چت تلگرام میشه ازش استفاده کرد.
+    """.format(config('SERVER_IP'), config('OC_USERNAME'), config('OC_PASSWORD'))
+    chat.send(oc_msg)
 
 
 def get_users() -> list:

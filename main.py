@@ -13,12 +13,18 @@ client = MongoClient()
 db = client.vpnbotdb
 users = db.users
 
-
 @bot.command("start")
 def add_user(chat, message, args):
     new_user = {"chat_id": chat.id}
     users.insert_one(new_user)
-    chat.send("Welcome to booooooooooo bot!")
+    msg = """
+Welcome to booooooooooooooooooo bot
+
+تمام خدمات تابع قوانین جمهوری اسلامی ایران است🇮🇷
+ تنها راه نجات = اطاعت از رهبری
+ این پیروزیییییییییی، خسجته باد این پیروزیییییییییییییییییییی🥳
+    """
+    chat.send(msg)
 
 
 broadcast_command_w_msg = config("broadcast_command_w_msg")

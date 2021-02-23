@@ -79,6 +79,7 @@ def spam_command(chat, message, args):
     btns[0].callback("ShadowsocskR", "ssr")
     btns[1].callback("OpenConnect", "openconnect")
     btns[2].callback("SSH (SOCKS5 Proxy)", "ssh")
+    btns[3].callback("Shadowsocks", "ss")
 
     chat.send("Choose a protocol to see how to setup", attach=btns)
 
@@ -169,6 +170,32 @@ cat ~/.ssh/id_rsa.pub
     """.format(config('SSH_USER'), config('SERVER_IP'))
     chat.send(oc_msg)
 
+
+@bot.callback("ss")
+def ss_callback(query, chat, message):
+    oc_msg = """
+https://shadowsocks.org/en/download/clients.html
+از این‌جا، برید برای هر چی که می‌خواید یه کلاینت دانلود کنید.
+من فقط لینوکس و اندرویدش رو استفاده کردم، توی لینوکس، این از همه بهتر بود:
+https://github.com/shadowsocks/shadowsocks-qt5/wiki/Installation
+اندروید هم این:
+https://play.google.com/store/apps/details?id=com.github.shadowsocks
+اونی که برای لینوکسه، خودش گفته چطوری باید رانش کنید. می‌تونید کامندش رو بذارید توی استارتاپ تا هر وقت میاد بالا لینوکس بازش کنه براتون.
+
+حالا بعد این که دانلود کردید کلاینتتون رو، باید اینارو توش کانفیگ کنید. مشخصاتی که می‌خواید ایناست:
+server: {}
+port: {}
+pass: {}
+method: {}
+
+لوکال آدرس و لوکال پورت هم خودش ست شده یحتمل، btw اگه نشده بود:
+local address: 127.0.0.1
+local port: 1080
+پورت رو هر چی دوست دارید می‌تونید بذارید.
+
+عز آلویز، پخش نکنید اینارو، به خانواده اوکیه.
+    """.format(config('SERVER_IP'), config('SS_PORT'), config('SS_PASSWORD'), config('SS_METHOD'))
+    chat.send(oc_msg)
 
 
 def get_users() -> list:

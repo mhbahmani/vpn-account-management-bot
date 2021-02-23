@@ -78,6 +78,7 @@ def spam_command(chat, message, args):
     btns = botogram.Buttons()
     btns[0].callback("ShadowsocskR", "ssr")
     btns[1].callback("OpenConnect", "openconnect")
+    btns[2].callback("SSH (SOCKS5 Proxy)", "ssh")
 
     chat.send("Choose a protocol to see how to setup", attach=btns)
 
@@ -149,6 +150,25 @@ password: {}
 پ.ن.: توصیه می‌کنم از shadowsocksr استفاده کنید. نکته‌ی مثبت این اینه که وی‌پی‌انه و برای ویس کال و ویس چت تلگرام میشه ازش استفاده کرد.
     """.format(config('SERVER_IP'), config('OC_USERNAME'), config('OC_PASSWORD'))
     chat.send(oc_msg)
+
+
+@bot.callback("ssh")
+def ssh_callback(query, chat, message):
+    oc_msg = """
+یه کاری که میشه کرد، اینه که به سرور اسسچ زد. با این کامنده، یه پروکسی socks5 رو سیستمتون می‌سازه. همه‌ی سیستم‌عامل‌ها هم اوکین.
+ssh -D 1080 {}@{}
+
+برای این که بتونید از این استفاده کنید، باید ssh keyتون رو برام بفرستید که به سرور ادد کنم. تو لینوکس اینو بزنید بهتون میدتش.
+cat ~/.ssh/id_rsa.pub
+خروجیش رو کپی کنید و برام بفرستید. تو ویندوز هیچ ایده‌ای ندارم چطوریه.
+
+اینم یه راهنمای ریز برای این که چطوری یه public key بسازید اگه ندارید:
+1- Type ssh in terminal to make sure ssh is installed.
+2- Create ssh public key in your client by ssh-keygen -t rsa
+* If you want to add your email, use this command ssh-keygen -t rsa -C "your_email@example.com"
+    """.format(config('SSH_USER'), config('SERVER_IP'))
+    chat.send(oc_msg)
+
 
 
 def get_users() -> list:

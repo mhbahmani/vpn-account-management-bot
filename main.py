@@ -22,6 +22,7 @@ def add_user(chat, message, args):
                 "last_name": chat.last_name}
     try:
         users.insert_one(new_user)
+        send_msg_to_admin('{} just started the bot'.format(new_user.get('username', 'Some one')))
         msg = """
 سلام {}!!!
 چطوری جون دل!؟ سر کیفی عزیز!؟؟ کیفت کوکه، بدم کوکه، بی‌خودی ادا حال بدارو در نیاااار!
@@ -198,11 +199,17 @@ local port: 1080
     chat.send(oc_msg)
 
 
+def send_msg_to_admin(msg):
+    admin = get_admin()
+    if admin:
+        bot.chat(admin).send(msg)
+
+
 def get_admin():
     admin = db.users.find_one(
             filter={'username': re.sub('@', '', bot.owner)},
             projection={'_id': 0, 'chat_id': 1})
-    return admin['chat_id']
+    return admin.get('chat_id', None)
 
 
 def get_users() -> list:

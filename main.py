@@ -198,6 +198,13 @@ local port: 1080
     chat.send(oc_msg)
 
 
+def get_admin():
+    admin = db.users.find_one(
+            filter={'username': re.sub('@', '', bot.owner)},
+            projection={'_id': 0, 'chat_id': 1})
+    return admin['chat_id']
+
+
 def get_users() -> list:
     return list(users.find(projection={"chat_id": 1, "_id": 0}))
 

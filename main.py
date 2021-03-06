@@ -15,7 +15,9 @@ users = db.users
 
 @bot.command("start")
 def add_user(chat, message, args):
-    """Just a simple start"""
+    """
+    Just a simple start
+    """
     new_user = {"chat_id": chat.id,
                 "username": chat.username,
                 "first_name": chat.first_name,
@@ -73,7 +75,9 @@ def broadcast_hardcode_message(chat, message):
 
 @bot.command("protocols")
 def spam_command(chat, message, args):
-    """Get setup guide"""
+    """
+    Get setup guide
+    """
     btns = botogram.Buttons()
     btns[0].callback("ShadowsocskR", "ssr")
     btns[1].callback("OpenConnect", "openconnect")

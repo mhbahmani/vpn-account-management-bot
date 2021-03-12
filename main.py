@@ -85,6 +85,19 @@ def month_passed(chat, message):
     users.update({"months": {"$gte": 0}}, {"$set" : {"this_month": True}}, multi=True)
 
 
+paid_command = config("paid_command")
+@bot.message_contains(paid_command)
+def set_this_month_true(chat, message):
+    """ 
+        This one is mine :)))
+        Don't even think about using it!
+    """
+
+    username = re.sub('{} @'.format(paid_command), '', message.text)
+
+    users.update({"username": username}, {"$set" : {"this_month": True}}, multi=False)
+
+
 @bot.command("protocols")
 def spam_command(chat, message, args):
     """

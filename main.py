@@ -81,6 +81,7 @@ def month_passed(chat, message):
         Don't even think about using it!
     """
 
+    users.update({}, {"$set" : {"this_month": False}}, multi=True)
     users.update({}, {"$inc": {"months": -1}}, multi=True)
     users.update({"months": {"$gte": 0}}, {"$set" : {"this_month": True}}, multi=True)
 
@@ -95,7 +96,7 @@ def set_this_month_true(chat, message):
 
     username = re.sub('{} @'.format(paid_command), '', message.text)
 
-    users.update({"username": username}, {"$set" : {"this_month": True}}, multi=False)
+    users.update({"username": username, "this_month": False}, {"$set" : {"this_month": True}}, multi=False)
 
 
 @bot.command("protocols")

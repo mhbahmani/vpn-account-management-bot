@@ -73,6 +73,18 @@ def broadcast_hardcode_message(chat, message):
         bot.chat(user.get("chat_id")).send(msg)
 
 
+month_passed_command = config("month_passed_command")
+@bot.message_contains(month_passed_command)
+def month_passed(chat, message):
+    """ 
+        This one is mine :)))
+        Don't even think about using it!
+    """
+
+    users.update({}, {"$inc": {"months": -1}}, multi=True)
+    users.update({"months": {"$gte": 0}}, {"$set" : {"this_month": True}}, multi=True)
+
+
 @bot.command("protocols")
 def spam_command(chat, message, args):
     """

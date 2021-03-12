@@ -51,7 +51,7 @@ def broadcast_message(chat, message):
 
     msg = re.sub('{} '.format(broadcast_command_w_msg), '', message.text)
 
-    chats = get_users()
+    chats = get_chats()
     for user in chats:
         bot.chat(user.get("chat_id")).send(msg)
 
@@ -68,7 +68,7 @@ def broadcast_hardcode_message(chat, message):
         put your message here
     """
 
-    chats = get_users()
+    chats = get_chats()
     for user in chats:
         bot.chat(user.get("chat_id")).send(msg)
 
@@ -214,7 +214,7 @@ def get_admin():
     return admin.get('chat_id', None)
 
 
-def get_users() -> list:
+def get_chats() -> list:
     return list(users.find(projection={"chat_id": 1, "_id": 0}))
 
 

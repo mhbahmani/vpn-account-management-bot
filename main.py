@@ -179,7 +179,6 @@ username: {}
 password: {}
 هر چی غیر اینا بود خالی بذارید‌ :))
 
-پ.ن.: توصیه می‌کنم از shadowsocksr استفاده کنید. نکته‌ی مثبت این اینه که وی‌پی‌انه و برای ویس کال و ویس چت تلگرام میشه ازش استفاده کرد.
     """.format(config('DOMAIN'), config('OC_PORT'), config('DOMAIN'), config('OC_USERNAME'), config('OC_PASSWORD'))
     chat.send(oc_msg)
 

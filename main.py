@@ -158,6 +158,8 @@ def openconnect_callback(query, chat, message):
 خوشگلای قری لینوکسی، بای‌دیفالت اوپن‌کانکت ساپورت می‌کنه لینوکس و نیاز نیست چیزی نصب کنید، اگه نداره احیانا، این‌جا کامند نصبش هست.
 https://people.eng.unimelb.edu.au/lucasjb/archive/oc_old.html
  بعد این که نصب کردید، میرید تو Settings > Network. اونجا یه VPN جدید می‌سازید و اطلاعات رو وارد می‌کنید. تو همون لینکه یه چیزایی گفته، البته خیلی قدیمیه و یه ذره فرق کرده الان لینوکس. ولی کلیت همونه.
+با این کامنده راحت می‌تونید روالش کنید:
+echo <passwrod> | sudo openconnect -b {}:{} -u <user>
 
 عزیزای ویندوزی، ضمن این که سگ تو ویندوز، لینک اولی آموزش کامل هست، برید ببینید. کلاینتی هم که باید دانلود کنید رو از لینک دوم می‌تونید بگیرید.
 https://openconnect.github.io/openconnect-gui/
@@ -178,7 +180,7 @@ password: {}
 هر چی غیر اینا بود خالی بذارید‌ :))
 
 پ.ن.: توصیه می‌کنم از shadowsocksr استفاده کنید. نکته‌ی مثبت این اینه که وی‌پی‌انه و برای ویس کال و ویس چت تلگرام میشه ازش استفاده کرد.
-    """.format(config('SERVER_IP'), config('OC_USERNAME'), config('OC_PASSWORD'))
+    """.format(config('DOMAIN'), config('OC_PORT'), config('DOMAIN'), config('OC_USERNAME'), config('OC_PASSWORD'))
     chat.send(oc_msg)
 
 

@@ -105,7 +105,7 @@ def spam_command(chat, message, args):
     Get setup guide
     """
     btns = botogram.Buttons()
-    btns[0].callback("ShadowsocskR", "ssr")
+    # btns[0].callback("ShadowsocskR", "ssr")
     btns[1].callback("OpenConnect", "openconnect")
     btns[2].callback("SSH (SOCKS5 Proxy)", "ssh")
     btns[3].callback("Shadowsocks", "ss")
@@ -154,7 +154,7 @@ def ssr_callback(query, chat, message):
 @bot.callback("openconnect")
 def openconnect_callback(query, chat, message):
     oc_msg = """
-خوشگلای تو خونه، یه پروتکل جدید داریم. البته این یکی وی‌پی‌ان‌عه و مثه قبلیا پروکسی نیست.
+خوشگلای تو خونه، این یکی وی‌پی‌ان‌عه و مثه قبلیا پروکسی نیست.
 خوشگلای قری لینوکسی، بای‌دیفالت اوپن‌کانکت ساپورت می‌کنه لینوکس و نیاز نیست چیزی نصب کنید، اگه نداره احیانا، این‌جا کامند نصبش هست.
 https://people.eng.unimelb.edu.au/lucasjb/archive/oc_old.html
  بعد این که نصب کردید، میرید تو Settings > Network. اونجا یه VPN جدید می‌سازید و اطلاعات رو وارد می‌کنید. تو همون لینکه یه چیزایی گفته، البته خیلی قدیمیه و یه ذره فرق کرده الان لینوکس. ولی کلیت همونه.

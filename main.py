@@ -81,9 +81,8 @@ def month_passed(chat, message):
         Don't even think about using it!
     """
 
-    users.update({}, {"$set" : {"this_month": False}}, multi=True)
-    users.update({}, {"$inc": {"months": -1}}, multi=True)
-    users.update({"months": {"$gte": 0}}, {"$set" : {"this_month": True}}, multi=True)
+    users.update_many({}, {"$set" : {"this_month": False}, "$inc": {"months": -1}})
+    users.update_many({"months": {"$gte": 0}}, {"$set" : {"this_month": True}})
 
 
 paid_command = config("paid_command")

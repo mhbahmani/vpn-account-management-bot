@@ -84,6 +84,8 @@ def month_passed(chat, message):
     users.update_many({}, {"$set" : {"this_month": False}, "$inc": {"months": -1}})
     users.update_many({"months": {"$gte": 0}}, {"$set" : {"this_month": True}})
 
+    chat.send("yes it does!")
+
 
 paid_command = config("paid_command")
 @bot.message_contains(paid_command)
@@ -97,6 +99,8 @@ def set_this_month_true(chat, message):
 
     users.update_one({"username": username, "this_month": True}, {"$inc" : {"months": 1}})
     users.update_one({"username": username, "this_month": False}, {"$set" : {"this_month": True}})
+
+    chat.send("gotcha!")
 
 
 @bot.command("protocols")

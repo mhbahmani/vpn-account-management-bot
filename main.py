@@ -81,10 +81,58 @@ def month_passed(chat, message):
         Don't even think about using it!
     """
 
+    msg = """
+    سلام بچه‌ها. هزینه‌ی این ماهمون میشه نفری{}
+شماره کارت: {}
+هر وقت ریختید، این دکمه‌ی پایین رو بزنید. اگه اسکرین شات یا چیزی خواستید بفرستید، برا خودم بفرستید. این باته نمی‌فهمه عکسو :))
+    """.format(re.sub(month_passed_command, '', message.text),
+                config("credit_card"))
+
+    btns = botogram.Buttons()
+    btns[0].callback("rikhtam, boro halesho bebar", "paid")
+
+    # send_msg_to_all(msg, btns)
+    send_msg_to_admin(msg, btns)
+
     users.update_many({}, {"$set" : {"this_month": False}, "$inc": {"months": -1}})
     users.update_many({"months": {"$gte": 0}}, {"$set" : {"this_month": True}})
 
-    chat.send("yes it does!")
+
+@bot.callback("paid")
+def paid_callback(query, chat, message):
+    user = users.find_one(
+    filter={'chat_id': chat.id},
+    projection={'_id': 0, 'username': 1, 'this_month': 1})
+
+    if user.get('this_month'):
+        msg = """
+you already paid for this month,
+bia pv reval konim.
+        """
+        chat.send(msg)
+        return
+
+    msg = """
+گاد بلس یو!,
+waiting for admin approval ...
+    """
+    chat.send(msg)
+    
+    btns = botogram.Buttons()
+    btns[0].callback("confirm", "paid_confirm")
+    
+    send_msg_to_admin(f'{user.get("username")} just paid', btns)
+
+
+@bot.callback("paid_confirm")
+def paid_confirm_callback(query, chat, message):
+    username = message.text.split()[0]
+    if username == 'some one':
+        send_msg_to_admin('check this manually')
+        return
+
+    users.update_one({"username": username, "this_month": False}, {"$set" : {"this_month": True}})    
+    send_msg_to_admin("all done")
 
 
 paid_command = config("paid_command")
@@ -232,10 +280,16 @@ local port: 1080
     chat.send(oc_msg)
 
 
-def send_msg_to_admin(msg):
+def send_msg_to_all(msg, btns=None):
+    chats = get_chats()
+    for user in chats:
+        bot.chat(user.get("chat_id")).send(msg, attach=btns)
+
+
+def send_msg_to_admin(msg, btns=None):
     admin = get_admin()
     if admin:
-        bot.chat(admin).send(msg)
+        bot.chat(admin).send(msg, attach=btns)
 
 
 def get_admin():

@@ -152,7 +152,7 @@ def set_this_month_true(chat, message):
 
 
 @bot.command("protocols")
-def spam_command(chat, message, args):
+def protocols_command(chat, message, args):
     """
     Get setup guide
     """

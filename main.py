@@ -141,13 +141,21 @@ def set_this_month_true(chat, message):
         This one is mine :)))
         Don't even think about using it!
     """
-
+        
     username = re.sub('{} @'.format(paid_command), '', message.text)
+    
+    user = users.find({'username': username})
+
+    msg = """
+before:
+    this month: {}
+    paid months: {}
+    """.format(user.get('this_month'), user.get('months'))
 
     users.update_one({"username": username, "this_month": True}, {"$inc" : {"months": 1}})
     users.update_one({"username": username, "this_month": False}, {"$set" : {"this_month": True}, "$inc" : {"months": 1}})
 
-    chat.send("gotcha!")
+    send_msg_to_admin(msg)
 
 
 @bot.command("protocols")

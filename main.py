@@ -150,7 +150,7 @@ def set_this_month_true(chat, message):
 before:
     this month: {}
     paid months: {}
-    """.format(user.get('this_month'), user.get('months'))
+    """.format(user.get('this_month'), int(user.get('months')))
 
     users.update_one({"username": username, "this_month": True}, {"$inc" : {"months": 1}})
     users.update_one({"username": username, "this_month": False}, {"$set" : {"this_month": True}, "$inc" : {"months": 1}})
@@ -173,7 +173,7 @@ def get_status(chat, message):
 username: @{}
 this month: {}
 paid months: {}
-    """.format(username, user['this_month'], user['months'])
+    """.format(username, user.get('this_month'), int(user.get('months')))
 
     send_msg_to_admin(msg)
 
@@ -186,7 +186,10 @@ def not_paid(chat, message):
         Don't even think about using it!
     """
 
-    msg = '@' + '     |      @'.join(get_not_paid_chats())
+    not_paid_users = get_not_paid_chats()
+    usernames = [user.get('username') for user in not_paid_users]
+
+    msg = '@' + '     |      @'.join()
     send_msg_to_admin(msg)
 
 

@@ -158,6 +158,26 @@ before:
     send_msg_to_admin(msg)
 
 
+get_status_command = config("get_status")
+@bot.message_contains(get_status_command)
+def get_status(chat, message):
+    """ 
+        This one is mine :)))
+        Don't even think about using it!
+    """
+        
+    username = re.sub('{} @'.format(get_status_command), '', message.text)
+    user = users.find({'username': username})
+
+    msg = """
+username: @{}
+this month: {}
+paid months: {}
+    """.format(username, user.get('this_month'), user.get('months'))
+
+    send_msg_to_admin(msg)
+    
+
 @bot.command("protocols")
 def protocols_command(chat, message, args):
     """

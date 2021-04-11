@@ -145,6 +145,7 @@ def set_this_month_true(chat, message):
     username = re.sub('{} @'.format(paid_command), '', message.text)
 
     users.update_one({"username": username, "this_month": True}, {"$inc" : {"months": 1}})
+    users.update_one({"username": username, "this_month": False}, {"$set" : {"this_month": True}, "$inc" : {"months": 1}})
 
     chat.send("gotcha!")
 

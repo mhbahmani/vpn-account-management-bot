@@ -179,7 +179,7 @@ paid months: {}
 
   
 not_paid_command = config("not_paid_command")
-@bot.message_contains(not_paid_command)
+@bot.message_equals(not_paid_command)
 def not_paid(chat, message):
     """ 
         This one is mine :)))
@@ -187,9 +187,9 @@ def not_paid(chat, message):
     """
 
     not_paid_users = get_not_paid_chats()
-    usernames = [user.get('username') for user in not_paid_users]
+    usernames = [user.get('username').replace("_", "\\_") for user in not_paid_users]
 
-    msg = '@' + '     |      @'.join(usernames)
+    msg = '@' + '    |    @'.join(usernames)
     send_msg_to_admin(msg)
 
 

@@ -91,11 +91,10 @@ def month_passed(chat, message):
     btns = botogram.Buttons()
     btns[0].callback("rikhtam, boro halesho bebar", "paid")
 
-    # send_msg_to_all(msg, btns)
-    send_msg_to_admin(msg, btns)
-
     users.update_many({}, {"$set" : {"this_month": False}, "$inc": {"months": -1}})
     users.update_many({"months": {"$gte": 0}}, {"$set" : {"this_month": True}})
+
+    send_msg_to_not_paid_users(msg, btns)
 
 
 @bot.callback("paid")
@@ -286,6 +285,12 @@ def send_msg_to_all(msg, btns=None):
         bot.chat(user.get("chat_id")).send(msg, attach=btns)
 
 
+def send_msg_to_not_paid_users(msg, btns=None):
+    chats = get_not_paid_chats()
+    for user in chats:
+        bot.chat(user.get("chat_id")).send(msg, attach=btns)
+
+
 def send_msg_to_admin(msg, btns=None):
     admin = get_admin()
     if admin:
@@ -301,6 +306,10 @@ def get_admin():
 
 def get_chats() -> list:
     return list(users.find(projection={"chat_id": 1, "_id": 0}))
+
+
+def get_not_paid_chats() -> list:
+    return list(users.find(filter={"this_month": False}, projection={"chat_id": 1, "_id": 0}))
 
 
 if __name__ == "__main__":

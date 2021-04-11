@@ -158,7 +158,7 @@ before:
     send_msg_to_admin(msg)
 
 
-get_status_command = config("get_status")
+get_status_command = config("get_status_command")
 @bot.message_contains(get_status_command)
 def get_status(chat, message):
     """ 
@@ -176,7 +176,19 @@ paid months: {}
     """.format(username, user.get('this_month'), user.get('months'))
 
     send_msg_to_admin(msg)
-    
+
+  
+not_paid_command = config("not_paid_command")
+@bot.message_contains(not_paid_command)
+def not_paid(chat, message):
+    """ 
+        This one is mine :)))
+        Don't even think about using it!
+    """
+
+    msg = '@' + '     |      @'.join(get_not_paid_chats())
+    send_msg_to_admin(msg)
+
 
 @bot.command("protocols")
 def protocols_command(chat, message, args):

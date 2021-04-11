@@ -337,7 +337,7 @@ def get_chats() -> list:
 
 
 def get_not_paid_chats() -> list:
-    return list(users.find(filter={"this_month": False}, projection={"chat_id": 1, "_id": 0}))
+    return list(users.find(filter={"this_month": False}, projection={"chat_id": 1, "_id": 0, "username": 1}))
 
 
 if __name__ == "__main__":

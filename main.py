@@ -189,7 +189,7 @@ def not_paid(chat, message):
     not_paid_users = get_not_paid_chats()
     usernames = [user.get('username') for user in not_paid_users]
 
-    msg = '@' + '     |      @'.join()
+    msg = '@' + '     |      @'.join(usernames)
     send_msg_to_admin(msg)
 
 

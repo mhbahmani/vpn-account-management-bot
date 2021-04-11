@@ -144,7 +144,7 @@ def set_this_month_true(chat, message):
         
     username = re.sub('{} @'.format(paid_command), '', message.text)
     
-    user = users.find({'username': username})
+    user = users.find_one({'username': username})
 
     msg = """
 before:
@@ -167,13 +167,13 @@ def get_status(chat, message):
     """
         
     username = re.sub('{} @'.format(get_status_command), '', message.text)
-    user = users.find({'username': username})
+    user = users.find_one({'username': username})
 
     msg = """
 username: @{}
 this month: {}
 paid months: {}
-    """.format(username, user.get('this_month'), user.get('months'))
+    """.format(username, user['this_month'], user['months'])
 
     send_msg_to_admin(msg)
 

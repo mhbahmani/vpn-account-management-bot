@@ -130,7 +130,7 @@ def paid_confirm_callback(query, chat, message):
         send_msg_to_admin('check this manually')
         return
 
-    users.update_one({"username": username, "this_month": False}, {"$set" : {"this_month": True}})    
+    users.update_one({"username": username, "this_month": False}, {"$set" : {"this_month": True}, "$inc": {"months": 1}})    
     send_msg_to_admin("all done")
 
 
@@ -145,7 +145,6 @@ def set_this_month_true(chat, message):
     username = re.sub('{} @'.format(paid_command), '', message.text)
 
     users.update_one({"username": username, "this_month": True}, {"$inc" : {"months": 1}})
-    users.update_one({"username": username, "this_month": False}, {"$set" : {"this_month": True}})
 
     chat.send("gotcha!")
 

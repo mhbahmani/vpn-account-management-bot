@@ -200,9 +200,9 @@ def protocols_command(chat, message, args):
     """
     btns = botogram.Buttons()
     # btns[0].callback("ShadowsocskR", "ssr")
-    btns[1].callback("OpenConnect", "openconnect")
-    btns[2].callback("SSH (SOCKS5 Proxy)", "ssh")
-    btns[3].callback("Shadowsocks", "ss")
+    btns[0].callback("OpenConnect", "openconnect")
+    btns[1].callback("SSH (SOCKS5 Proxy)", "ssh")
+    btns[2].callback("Shadowsocks", "ss")
 
     chat.send("Choose a protocol to see how to setup", attach=btns)
 

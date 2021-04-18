@@ -1,0 +1,12 @@
+[Unit]
+Description=vpn acoount management bot
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu/vpn-account-management-bot/
+ExecStart=/usr/bin/python /home/ubuntu/vpn-account-management-bot/main.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

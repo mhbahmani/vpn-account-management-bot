@@ -54,7 +54,7 @@ def get_user_status(chat, message, args):
 username: @{}
 this month: {}
 paid months: {}
-    """.format(chat.username, user.get('this_month'), int(user.get('months')))
+    """.format(chat.username.replace("_", "\\_"), user.get('this_month'), int(user.get('months')))
 
     chat.send(msg)
 

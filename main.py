@@ -45,7 +45,9 @@ def add_user(chat, message, args):
 
 @bot.message_contains("status")
 def get_user_status(chat, message):
-
+    """
+        get your status, paid months and ...
+    """
     user = users.find_one({"chat_id": chat.id, "username": chat.username})
 
     msg = """

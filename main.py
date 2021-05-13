@@ -21,7 +21,9 @@ def add_user(chat, message, args):
     new_user = {"chat_id": chat.id,
                 "username": chat.username,
                 "first_name": chat.first_name,
-                "last_name": chat.last_name}
+                "last_name": chat.last_name,
+                "months": 1,
+                "this_month": True}
     try:
         users.insert_one(new_user)
         send_msg_to_admin('{} just started the bot'.format(new_user.get('username', 'Some one')))

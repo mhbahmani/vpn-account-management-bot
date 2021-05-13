@@ -43,6 +43,20 @@ def add_user(chat, message, args):
     chat.send(msg)
 
 
+@bot.message_contains("status")
+def get_user_status(chat, message):
+
+    user = users.find_one({"chat_id": chat.id, "username": chat.username})
+
+    msg = """
+username: @{}
+this month: {}
+paid months: {}
+    """.format(chat.username, user.get('this_month'), int(user.get('months')))
+
+    chat.send(msg)
+
+
 broadcast_command_w_msg = config("broadcast_command_w_msg")
 @bot.message_contains(broadcast_command_w_msg)
 def broadcast_message(chat, message):

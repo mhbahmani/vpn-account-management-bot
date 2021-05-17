@@ -176,6 +176,18 @@ before:
     send_msg_to_admin(msg)
 
 
+pay_reminder_command = config("pay_reminder_command")
+@bot.message_contains(pay_reminder_command)
+def send_reminder_command(chat, message):
+    """ 
+        This one is mine :)))
+        Don't even think about using it!
+    """
+
+    msg = re.sub('{}'.format(get_status_command), '',message.txt)
+    send_msg_to_not_paid_users(msg)
+
+
 get_status_command = config("get_status_command")
 @bot.message_contains(get_status_command)
 def get_status(chat, message):

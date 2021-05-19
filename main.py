@@ -138,12 +138,13 @@ waiting for admin approval ...
     btns = botogram.Buttons()
     btns[0].callback("confirm", "paid_confirm")
     
-    send_msg_to_admin(f'{user.get("username")} just paid', btns)
+    username = user.get("username").replace("_", "\\_")
+    send_msg_to_admin(f'{username} just paid', btns)
 
 
 @bot.callback("paid_confirm")
 def paid_confirm_callback(query, chat, message):
-    username = message.text.split()[0]
+    username = message.text.split()[0].replace('\\', '')
     if username == 'some one':
         send_msg_to_admin('check this manually')
         return

@@ -22,7 +22,7 @@ def add_user(chat, message, args):
                 "username": chat.username,
                 "first_name": chat.first_name,
                 "last_name": chat.last_name,
-                "months": 1,
+                "paid": 0,
                 "this_month": True}
     try:
         users.insert_one(new_user)
@@ -53,8 +53,8 @@ def get_user_status(chat, message, args):
     msg = """
 username: @{}
 this month: {}
-paid months: {}
-    """.format(chat.username.replace("_", "\\_"), user.get('this_month'), int(user.get('months')))
+paid: {}
+    """.format(chat.username.replace("_", "\\_"), user.get('this_month'), int(user.get('paid')))
 
     chat.send(msg)
 
@@ -99,24 +99,26 @@ def month_passed(chat, message):
         Don't even think about using it!
     """
 
+    price = float(re.sub(month_passed_command, '', message.text))
+
     msg = """
     سلام بچه‌ها. هزینه‌ی این ماهمون میشه نفری{}
 شماره کارت: {}
-هر وقت ریختید، این دکمه‌ی پایین رو بزنید. اگه اسکرین شات یا چیزی خواستید بفرستید، برا خودم بفرستید. این باته نمی‌فهمه عکسو :))
-    """.format(re.sub(month_passed_command, '', message.text),
-                config("credit_card"))
+
+اگه این پیام برات اومده، ینی احتمالا اعتبار اکانتت کم‌تر از هزینه‌ی این ماه بوده.
+    """.format(price, config("credit_card"))
 
     btns = botogram.Buttons()
-    btns[0].callback("rikhtam, boro halesho bebar", "paid")
+    btns[0].callback("rikhtam, boro halesho bebar", "paid", str(price))
 
-    users.update_many({}, {"$set" : {"this_month": False}, "$inc": {"months": -1}})
-    users.update_many({"months": {"$gte": 0}}, {"$set" : {"this_month": True}})
+    users.update_many({}, {"$set" : {"this_month": False}, "$inc": {"paid": -price}})
+    users.update_many({"paid": {"$gte": 0}}, {"$set" : {"this_month": True}})
 
     send_msg_to_not_paid_users(msg, btns)
 
 
 @bot.callback("paid")
-def paid_callback(query, chat, message):
+def paid_callback(query, data, chat, message):
     user = users.find_one(
     filter={'chat_id': chat.id},
     projection={'_id': 0, 'username': 1, 'this_month': 1})
@@ -136,20 +138,20 @@ waiting for admin approval ...
     chat.send(msg)
     
     btns = botogram.Buttons()
-    btns[0].callback("confirm", "paid_confirm")
+    btns[0].callback("confirm", "paid_confirm", data)
     
     username = user.get("username").replace("_", "\\_")
     send_msg_to_admin(f'{username} just paid', btns)
 
 
 @bot.callback("paid_confirm")
-def paid_confirm_callback(query, chat, message):
+def paid_confirm_callback(query, data, chat, message):
     username = message.text.split()[0].replace('\\', '')
     if username == 'some one':
         send_msg_to_admin('check this manually')
         return
 
-    users.update_one({"username": username, "this_month": False}, {"$set" : {"this_month": True}, "$inc": {"months": 1}})    
+    users.update_one({"username": username, "this_month": False}, {"$set" : {"this_month": True}, "$inc": {"paid": float(data)}})    
     send_msg_to_admin("all done")
 
 
@@ -160,19 +162,21 @@ def set_this_month_true(chat, message):
         This one is mine :)))
         Don't even think about using it!
     """
-        
-    username = re.sub('{} @'.format(paid_command), '', message.text)
+
+    price = float(message.text.split()[1])
+
+    username = re.sub('@', '', message.text.split()[-1])
     
     user = users.find_one({'username': username})
 
     msg = """
 before:
     this month: {}
-    paid months: {}
-    """.format(user.get('this_month'), int(user.get('months')))
+    paid: {}
+    """.format(user.get('this_month'), int(user.get('paid')))
 
-    users.update_one({"username": username, "this_month": True}, {"$inc" : {"months": 1}})
-    users.update_one({"username": username, "this_month": False}, {"$set" : {"this_month": True}, "$inc" : {"months": 1}})
+    users.update_one({"username": username, "this_month": True}, {"$inc" : {"paid": price}})
+    users.update_one({"username": username, "this_month": False}, {"$set" : {"this_month": True}, "$inc" : {"paid": price}})
 
     send_msg_to_admin(msg)
 
@@ -203,8 +207,8 @@ def get_status(chat, message):
     msg = """
 username: @{}
 this month: {}
-paid months: {}
-    """.format(username, user.get('this_month'), int(user.get('months')))
+paid: {}
+    """.format(username, user.get('this_month'), int(user.get('paid')))
 
     send_msg_to_admin(msg)
 

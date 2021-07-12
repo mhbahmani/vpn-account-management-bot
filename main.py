@@ -151,7 +151,10 @@ def paid_confirm_callback(query, data, chat, message):
         send_msg_to_admin('check this manually')
         return
 
-    users.update_one({"username": username, "this_month": False}, {"$set" : {"this_month": True}, "$inc": {"paid": float(data)}})    
+    user = users.find_one({'username': username}, projection={'_id': 0, 'paid': 1})
+
+    new_charge = int((user.get['paid'] + float(data)) * 10) / 10
+    users.update_one({"username": username, "this_month": False}, {"$set" : {"this_month": True, "paid": new_charge}})    
     send_msg_to_admin("all done")
 
 

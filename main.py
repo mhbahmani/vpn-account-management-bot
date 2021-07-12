@@ -168,6 +168,7 @@ def set_this_month_true(chat, message):
     username = re.sub('@', '', message.text.split()[-1])
     
     user = users.find_one({'username': username})
+    new_charge = int((user.get['paid'] + price) * 10) / 10
 
     msg = """
 before:
